@@ -163,6 +163,7 @@ enum DefaultsKey {
     static let panelUtilityCleaner = "panelUtilityCleaner"
     static let panelUtilityHomebrew = "panelUtilityHomebrew"
     static let panelUtilityAppUpdates = "panelUtilityAppUpdates"
+    static let panelUtilityVideoDownloader = "panelUtilityVideoDownloader"
     static let appUpdatesCheckFrequency = "appUpdatesCheckFrequency"  // off | daily | weekly
     static let appUpdatesIncludeAppStore = "appUpdatesIncludeAppStore"
     static let appUpdatesNotify = "appUpdatesNotify"
@@ -340,6 +341,18 @@ enum DefaultsKey {
     static let mediaImageStripMetadata = "mediaImageStripMetadata"
     static let mediaTextAccurate = "mediaTextAccurate"
     static let mediaTextLanguageCorrection = "mediaTextLanguageCorrection"
+
+    // Video Downloader — keep the current URL and job state out of preferences.
+    // Only the download folder and setup details belong to this Mac.
+    static let videoDownloaderDestinationPath = "videoDownloaderDestinationPath"
+    static let videoDownloaderEmbedThumbnail = "videoDownloaderEmbedThumbnail"
+    static let videoDownloaderEmbedMetadata = "videoDownloaderEmbedMetadata"
+    static let videoDownloaderEmbedChapters = "videoDownloaderEmbedChapters"
+    static let videoDownloaderEmbedSubtitle = "videoDownloaderEmbedSubtitle"
+    static let videoDownloaderLyrics = "videoDownloaderLyrics"
+    static let videoDownloaderTerminalSetupUsed = "videoDownloaderTerminalSetupUsed"
+    static let videoDownloaderTerminalSetupStatusPath = "videoDownloaderTerminalSetupStatusPath"
+    static let videoDownloaderTerminalSetupBootID = "videoDownloaderTerminalSetupBootID"
 
     // Clipboard history — text only, opt-in and local.
     static let clipboardHistoryEnabled = "clipboardHistoryEnabled"
@@ -796,6 +809,7 @@ enum Defaults {
         DefaultsKey.panelUtilityCleaner: true,
         DefaultsKey.panelUtilityHomebrew: true,
         DefaultsKey.panelUtilityAppUpdates: true,
+        DefaultsKey.panelUtilityVideoDownloader: true,
         // The list itself costs nothing until it is opened; only the
         // background check keeps a timer, so it starts off.
         DefaultsKey.appUpdatesCheckFrequency: AppUpdatesSupport.CheckFrequency.off.rawValue,
@@ -940,6 +954,15 @@ enum Defaults {
         DefaultsKey.mediaImageStripMetadata: true,
         DefaultsKey.mediaTextAccurate: true,
         DefaultsKey.mediaTextLanguageCorrection: true,
+        DefaultsKey.videoDownloaderDestinationPath: "",
+        DefaultsKey.videoDownloaderEmbedThumbnail: true,
+        DefaultsKey.videoDownloaderEmbedMetadata: true,
+        DefaultsKey.videoDownloaderEmbedChapters: true,
+        DefaultsKey.videoDownloaderEmbedSubtitle: true,
+        DefaultsKey.videoDownloaderLyrics: true,
+        DefaultsKey.videoDownloaderTerminalSetupUsed: false,
+        DefaultsKey.videoDownloaderTerminalSetupStatusPath: "",
+        DefaultsKey.videoDownloaderTerminalSetupBootID: "",
         DefaultsKey.clipboardHistoryEnabled: false,
         DefaultsKey.clipboardHistoryLimit: 50,
         DefaultsKey.clipboardHistorySkipSensitive: true,

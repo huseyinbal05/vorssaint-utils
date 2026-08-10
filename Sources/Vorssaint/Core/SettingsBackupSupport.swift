@@ -109,6 +109,12 @@ enum SettingsBackupSupport {
         DefaultsKey.screenshotSharingDeveloperEndpoint,
         DefaultsKey.fanControlRecoveryNeeded,
         DefaultsKey.fanControlHelperVersion,
+        // Local filesystem placement and whether this Mac used a contextual
+        // Terminal handoff never travel to another Mac.
+        DefaultsKey.videoDownloaderDestinationPath,
+        DefaultsKey.videoDownloaderTerminalSetupUsed,
+        DefaultsKey.videoDownloaderTerminalSetupStatusPath,
+        DefaultsKey.videoDownloaderTerminalSetupBootID,
     ]
 
     /// The file's content: an envelope with the format version, the app

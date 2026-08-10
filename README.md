@@ -123,6 +123,7 @@ The rest bends the same way: panel sections reorder and hide, the compact layout
 - **Messaging downloads.** The Cleaner can also tidy the media a messaging app saves into Downloads, confirmed by macOS metadata and only ever moved to the Trash, with a review list, retention rules and an optional organizer that files new ones into a folder of your choice.
 - **Uninstaller.** Drop an app in and take its verified caches, preferences, helpers and other leftovers to the Trash with it.
 - **Media tools.** Compress videos and images, make GIFs and extract text, all locally.
+- **Video Downloader.** Paste one public, non-live media link, inspect its title, thumbnail, qualities and captions with your local yt-dlp, then save a losslessly merged or remuxed MP4 or a highest-quality MP3. Downloads stay in a hidden staging folder until complete, support cancellation and never publish subtitle or thumbnail sidecars.
 - **Homebrew manager.** Search, install and remove formulae and casks without opening a terminal.
 - **Cleaning Mode.** Locks the keyboard and blacks out every display while you clean.
 
@@ -160,7 +161,7 @@ To remove Vorssaint completely, including its settings and permissions:
 
 ## Private by default
 
-Vorssaint is local-first, with no account, analytics or tracking. The network is touched only by things you can see: update checks, the speed test, Homebrew actions, temporary screenshot or recording links and feedback you explicitly send. The full story is in the [privacy notes](docs/PRIVACY.md).
+Vorssaint is local-first, with no account, analytics or tracking. The network is touched only by things you can see: update checks, the speed test, Homebrew actions, Video Downloader inspection and downloads, temporary screenshot or recording links and feedback you explicitly send. The full story is in the [privacy notes](docs/PRIVACY.md).
 
 Permissions get the same treatment. Every one is optional, the app explains each in plain words, shows which features actually use it, and even tells you when a permission you granted is no longer needed by anything, with a shortcut to revoke it.
 

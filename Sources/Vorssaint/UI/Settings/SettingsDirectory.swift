@@ -98,6 +98,16 @@ enum SettingsDirectory {
                                       keywords: [s.shelfEnable, s.shelfDropZoneToggle]),
                 SettingsDirectoryItem(page: .media, title: s.mediaName, icon: "photo.on.rectangle.angled",
                                       keywords: ["PDF", "GIF", s.mediaStartConvertPDF, s.ocrName]),
+                SettingsDirectoryItem(
+                    page: .videoDownloader,
+                    title: FeatureStrings.videoDownloader(language).pageTitle,
+                    icon: "arrow.down.circle",
+                    keywords: [FeatureStrings.videoDownloader(language).panelCaption,
+                               FeatureStrings.videoDownloader(language).downloadVideo,
+                               FeatureStrings.videoDownloader(language).downloadMP3,
+                               FeatureStrings.videoDownloader(language).subtitles,
+                               FeatureStrings.videoDownloader(language).defaultLocation]
+                ),
             ]),
             // Everything about the apps installed on the Mac lives together:
             // what is out of date, what is junk and what should go.

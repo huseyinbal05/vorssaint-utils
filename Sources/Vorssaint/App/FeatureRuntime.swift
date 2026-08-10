@@ -185,6 +185,7 @@ final class FeatureRuntime: ObservableObject {
             }
         },
         .appUpdates: { AppUpdatesService.shared.syncWithPreferences() },
+        .videoDownloader: { VideoDownloaderWorkflow.shared.syncWithFeature() },
         .monitorCPU: { FeatureRuntime.syncMonitor() },
         .monitorGPU: { FeatureRuntime.syncMonitor() },
         .monitorMemory: { FeatureRuntime.syncMonitor() },

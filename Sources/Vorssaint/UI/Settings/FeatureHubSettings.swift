@@ -599,6 +599,7 @@ extension AppFeature {
         case .commandBar: return FeatureStrings.commandBar(L10n.shared.language).pageTitle
         case .cleaningMode: return s.cleaningMenuItem
         case .mediaTools: return s.mediaName
+        case .videoDownloader: return FeatureStrings.videoDownloader(L10n.shared.language).pageTitle
         case .cleaner: return s.cleanerName
         case .uninstaller: return s.uninstallerName
         case .homebrew: return s.homebrewName
@@ -656,6 +657,7 @@ extension AppFeature {
         case .commandBar: return FeatureStrings.commandBar(L10n.shared.language).hubDescription
         case .cleaningMode: return hub.descCleaningMode
         case .mediaTools: return hub.descMediaTools
+        case .videoDownloader: return FeatureStrings.videoDownloader(L10n.shared.language).hubDescription
         case .cleaner:
             return hub.descCleaner + " · "
                 + FeatureStrings.whatsAppDownloads(L10n.shared.language).hubDescription

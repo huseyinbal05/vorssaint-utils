@@ -226,6 +226,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSW
         WindowLayoutService.shared.suspend()
         KeyboardDebounceService.shared.suspend()
         TextSnippetService.shared.suspend()
+        if AppFeature.videoDownloader.isAvailable {
+            VideoDownloaderWorkflow.shared.terminateAndWait()
+        }
         // Takes the Caps Lock mapping back out before the process goes away.
         SuperKeyService.shared.suspend()
         MiddleClickService.shared.suspend()
@@ -830,6 +833,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate, NSW
         // (Menu bar icon recovery happens on a deliberate reopen, not here: this
         // fires on every activation, so rebuilding here would cause churn/flicker.)
         UpdateService.shared.checkIfStale()
+        if AppFeature.videoDownloader.isAvailable {
+            VideoDownloaderWorkflow.shared.applicationBecameActive()
+        }
         restoreAfterAppStoreHandoff()
     }
 

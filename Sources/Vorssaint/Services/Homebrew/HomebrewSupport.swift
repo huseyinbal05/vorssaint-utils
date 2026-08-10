@@ -3,6 +3,58 @@
 
 import Foundation
 
+/// Keeps Homebrew changes in one lane. Browsing can continue, but installs,
+/// upgrades, and downloader setup must not run at the same time.
+final class HomebrewMutationGate {
+    static let shared = HomebrewMutationGate()
+
+    final class Reservation {
+        private weak var gate: HomebrewMutationGate?
+        private let id: UUID
+        private let lock = NSLock()
+        private var didRelease = false
+
+        fileprivate init(gate: HomebrewMutationGate, id: UUID) {
+            self.gate = gate
+            self.id = id
+        }
+
+        func release() {
+            lock.lock()
+            guard !didRelease else { lock.unlock(); return }
+            didRelease = true
+            lock.unlock()
+            gate?.release(id)
+        }
+
+        deinit { release() }
+    }
+
+    private let lock = NSLock()
+    private var activeID: UUID?
+
+    var isReserved: Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return activeID != nil
+    }
+
+    func reserve() -> Reservation? {
+        lock.lock()
+        defer { lock.unlock() }
+        guard activeID == nil else { return nil }
+        let id = UUID()
+        activeID = id
+        return Reservation(gate: self, id: id)
+    }
+
+    private func release(_ id: UUID) {
+        lock.lock()
+        defer { lock.unlock() }
+        if activeID == id { activeID = nil }
+    }
+}
+
 enum HomebrewPackageKind: String, CaseIterable, Identifiable {
     case cask
     case formula

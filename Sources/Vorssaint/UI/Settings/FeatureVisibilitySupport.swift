@@ -7,7 +7,7 @@ import Foundation
 /// below and the unit tests can reason about pages without pulling SwiftUI in.
 enum SettingsPage: Hashable {
     case general, features, energy, monitor
-    case mouse, switcher, keyDebounce, superKey, cutPaste, autoQuit, cleaner, uninstaller, urlCleaner, homebrew, appUpdates, media, clipboard, windowLayout, shelf, quickTools, textSnippets, screenshot, screenRecorder, radialMenu, commandBar
+    case mouse, switcher, keyDebounce, superKey, cutPaste, autoQuit, cleaner, uninstaller, urlCleaner, homebrew, appUpdates, media, videoDownloader, clipboard, windowLayout, shelf, quickTools, textSnippets, screenshot, screenRecorder, radialMenu, commandBar
     case shortcuts, advanced, about, releaseNotes, support
 }
 
@@ -34,6 +34,7 @@ enum FeatureVisibilitySupport {
         case .cutPaste: return [.finderCutPaste, .finderRename]
         case .shelf: return [.shelf]
         case .media: return [.mediaTools]
+        case .videoDownloader: return [.videoDownloader]
         case .quickTools: return [.quickLauncher, .quickToggles, .colorPicker, .screenOCR, .micMute,
                                   .cameraPreview, .scratchpad]
         case .urlCleaner: return [.urlCleaner]

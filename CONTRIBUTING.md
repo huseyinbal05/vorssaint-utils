@@ -75,8 +75,9 @@ Every user facing string lives in `Core/Localization.swift` as a field of the
 it, and the compiler is the completeness check, so a translation can never
 silently fall out of sync.
 
-Vorssaint ships eight languages today, namely English, Português (Brasil),
-Español, Deutsch, Français, Italiano, 日本語 and 简体中文. The non base
+Vorssaint ships thirteen languages today: English (US), Português (Brasil),
+Türkçe, Русский, Español, Deutsch, Français, Italiano, 日本語, 한국어, 简体中文,
+繁體中文（台灣）and 繁體中文（香港）. The non-base
 translations live in `Core/Localizations/`. To add a language, add a case to
 `AppLanguage` and a `static let` extension of `Strings` with every field
 translated.
