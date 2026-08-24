@@ -184,6 +184,9 @@ struct Strings {
     let usageSection: String
     let memorySection: String
     let memoryPressure: String
+    let memorySwapUsed: String
+    let memoryCompressed: String
+    let memoryCachedFiles: String
     let pressureNormal: String
     let pressureWarning: String
     let pressureCritical: String
@@ -329,11 +332,14 @@ struct Strings {
     let switcherWindowlessAppsFinder: String
     let switcherWindowlessAppsAll: String
     let switcherNoOpenWindow: String
+    let switcherOtherDesktop: String
     let dockPreviewName: String
     let dockPreviewEnable: String
     let dockPreviewEnableCaption: String
     let dockPreviewBackgroundOpacity: String
     let dockPreviewBackgroundOpacityCaption: String
+    let dockPreviewOpenDelay: String
+    let dockPreviewOpenDelayCaption: String
     let dockClickMinimize: String
     let dockClickMinimizeCaption: String
     let dockClickCycleWindows: String
@@ -356,6 +362,8 @@ struct Strings {
     let cutPasteName: String
     let cutPasteEnable: String
     let cutPasteEnableCaption: String
+    let cutPasteShowHUD: String
+    let cutPasteShowHUDCaption: String
     let cutPasteHowTitle: String
     let cutPasteStep1: String
     let cutPasteStep2: String
@@ -620,6 +628,15 @@ struct Strings {
     let shelfSelectedFormat: String      // + count
     let shelfHint: String
     let shelfItemImage: String
+    let shelfTooltipItemsFormat: String      // + count, always plural: a pile always has 2+
+    let shelfTooltipImageSingular: String    // + count == 1
+    let shelfTooltipImagePlural: String      // + count
+    let shelfTooltipFileSingular: String     // + count == 1
+    let shelfTooltipFilePlural: String       // + count
+    let shelfTooltipNoteSingular: String     // + count == 1
+    let shelfTooltipNotePlural: String       // + count
+    let shelfTooltipLinkSingular: String     // + count == 1
+    let shelfTooltipLinkPlural: String       // + count
     let shelfActionOpen: String
     let shelfActionOpenWith: String
     let shelfActionAirDrop: String
@@ -646,6 +663,9 @@ struct Strings {
     let mixerLowerOnHeadphonesDisconnect: String
     let mixerLowerOnHeadphonesDisconnectCaption: String
     let mixerHeadphonesDisconnectVolume: String
+    let preciseVolumeRollerEnable: String
+    let preciseVolumeRollerCaption: String
+    let preciseVolumeRollerTapFailed: String
     let soundOutputSwitcherTitle: String
     let soundOutputSwitcherEnable: String
     let soundOutputSwitcherCaption: String
@@ -665,6 +685,9 @@ struct Strings {
     // MARK: Settings — updates
     let updatesSection: String
     let autoCheckToggle: String
+    let includeBetaUpdatesToggle: String
+    let includeBetaUpdatesCaption: String
+    let betaBadgeLabel: String
     let checkNowButton: String
     let updateChecking: String
     let updateUpToDate: String
@@ -694,6 +717,7 @@ struct Strings {
     let aboutDescription: String
     let versionPrefix: String
     let reviewIntro: String
+    let reviewHighlights: String
     let viewOnGitHub: String
 
     // MARK: Onboarding
@@ -916,9 +940,16 @@ struct Strings {
     let supportIntroTitle: String
     let supportIntroMessage: String
     let supportIntroStarButton: String
-    let supportIntroSponsorButton: String
+    let supportIntroStarMessage: String
+    let supportIntroCoffeeButton: String
     let supportIntroLaterButton: String
     let supportIntroDoneButton: String
+    let discordIntroTitle: String
+    let discordIntroMessage: String
+    let discordIntroBenefitHelp: String
+    let discordIntroBenefitFeedback: String
+    let discordIntroBenefitPreviews: String
+    let discordIntroJoinButton: String
     let communityIntroTitle: String
     let communityIntroMessage: String
     let communityIntroFollowButton: String
@@ -1015,9 +1046,12 @@ struct Strings {
     let qrResultCopy: String
     let qrResultOpen: String
     let highlightsTitle: String
+    let highlightsTitleClipboardRedesign: String
     let highlightsCaptionDockPreview: String
     let highlightsCaptionScreenshot: String
     let highlightsCaptionSnippetLibrary: String
+    let highlightsCaptionCapturePalette: String
+    let highlightsCaptionClipboardRedesign: String
     let highlightsConfigure: String
     let highlightsTry: String
     let highlightsSeeAll: String
@@ -1035,15 +1069,115 @@ struct Strings {
     let memoryMetricApp: String
     let keepAwakeRightClickToggle: String
     let keepAwakeRightClickToggleCaption: String
-    let urlCleanerCustomTitle: String
-    let urlCleanerCustomPlaceholder: String
-    let urlCleanerCustomCaption: String
+    let urlCleanerRulesTitle: String
+    let urlCleanerRulesCaption: String
+    let urlCleanerRulesCoverageCaption: String
+    let urlCleanerRulesAllSites: String
+    let urlCleanerRulesCountSingular: String
+    let urlCleanerRulesCountPluralFormat: String   // + count
+    let urlCleanerRulesAddSite: String
+    let urlCleanerRulesParameterPlaceholder: String
+    let urlCleanerRulesMatchCaption: String
+    let urlCleanerRulesAddButton: String
+    let urlCleanerRulesRemoveButton: String
+    let urlCleanerRulesRemoveSiteButton: String
+    let urlCleanerRemovedFormat: String            // + comma separated names
     let switcherSearchPin: String
     let switcherSearchPinCaption: String
     let invertVerticalScroll: String
     let invertHorizontalScroll: String
     let switcherShowShortcutHints: String
     let switcherShowShortcutHintsCaption: String
+    let uninstallerHomebrewPackageFormat: String
+    let shelfEdgeToggle: String
+    let shelfEdgeCaption: String
+    let focusFollowsMouseName: String
+    let focusFollowsMouseCaption: String
+    let focusFollowsMouseDelay: String
+    let switcherMinimizedPlacementLabel: String
+    let switcherMinimizedPlacementNormal: String
+    let switcherMinimizedPlacementEnd: String
+    let switcherMinimizedPlacementHidden: String
+    let switcherShowFullscreenWindows: String
+    let videoDownloaderPageTitle: String
+    let videoDownloaderHubDescription: String
+    let videoDownloaderPanelCaption: String
+    let videoDownloaderUrlPlaceholder: String
+    let videoDownloaderUrlHelp: String
+    let videoDownloaderPaste: String
+    let videoDownloaderInspecting: String
+    let videoDownloaderVideo: String
+    let videoDownloaderAudio: String
+    let videoDownloaderQuality: String
+    let videoDownloaderHeightFormat: String
+    let videoDownloaderQualityFallbackFormat: String
+    let videoDownloaderSubtitles: String
+    let videoDownloaderNone: String
+    let videoDownloaderManual: String
+    let videoDownloaderAutomatic: String
+    let videoDownloaderChoose: String
+    let videoDownloaderShowInPanel: String
+    let videoDownloaderSettingsCaption: String
+    let videoDownloaderUsageNotice: String
+    let videoDownloaderDownloadLocation: String
+    let videoDownloaderResetDownloads: String
+    let videoDownloaderUseCookies: String
+    let videoDownloaderCookiesBrowser: String
+    let videoDownloaderCookiesNote: String
+    let videoDownloaderFAQ: String
+    let videoDownloaderCookiesDiskAccessNote: String
+    let videoDownloaderErrorExtractorFormat: String
+    let videoDownloaderDependencies: String
+    let videoDownloaderMissingToolsFormat: String
+    let videoDownloaderInstallMissingTools: String
+    let videoDownloaderSetUpDownloader: String
+    let videoDownloaderBrewSetupNote: String
+    let videoDownloaderTerminalSetupNote: String
+    let videoDownloaderCheckingTools: String
+    let videoDownloaderDownloadVideo: String
+    let videoDownloaderDownloadAudio: String
+    let videoDownloaderDownloading: String
+    let videoDownloaderPercentFormat: String
+    let videoDownloaderSpeedFormat: String
+    let videoDownloaderEtaFormat: String
+    let videoDownloaderFinalizing: String
+    let videoDownloaderCancel: String
+    let videoDownloaderCancelling: String
+    let videoDownloaderComplete: String
+    let videoDownloaderDownloadAnother: String
+    let videoDownloaderRevealFinder: String
+    let videoDownloaderRetry: String
+    let videoDownloaderCancelled: String
+    let videoDownloaderFailureTitle: String
+    let videoDownloaderUploader: String
+    let videoDownloaderDuration: String
+    let videoDownloaderThumbnail: String
+    let videoDownloaderErrorURLInvalid: String
+    let videoDownloaderErrorURLTooLong: String
+    let videoDownloaderErrorURLControl: String
+    let videoDownloaderErrorURLCredentials: String
+    let videoDownloaderErrorInspectionTimeout: String
+    let videoDownloaderErrorInspectionFailed: String
+    let videoDownloaderErrorInspectionTooLarge: String
+    let videoDownloaderErrorInspectionMalformed: String
+    let videoDownloaderInspectionFailedNotice: String
+    let videoDownloaderErrorPlaylist: String
+    let videoDownloaderErrorLive: String
+    let videoDownloaderErrorDRM: String
+    let videoDownloaderErrorRestricted: String
+    let videoDownloaderErrorNoVideo: String
+    let videoDownloaderErrorNoAudio: String
+    let videoDownloaderErrorMissingDependencies: String
+    let videoDownloaderErrorSetupBusy: String
+    let videoDownloaderErrorSetupFailed: String
+    let videoDownloaderErrorTerminalPermission: String
+    let videoDownloaderErrorDownloadFailed: String
+    let videoDownloaderErrorCookiesPermission: String
+    let videoDownloaderErrorRemux: String
+    let videoDownloaderErrorSubtitle: String
+    let videoDownloaderErrorSubtitleRateLimited: String
+    let videoDownloaderErrorOptionalData: String
+    let videoDownloaderErrorFileSafety: String
 }
 
 // MARK: - Português (Brasil)
@@ -1123,6 +1257,9 @@ extension Strings {
         usageSection: "Uso de hardware",
         memorySection: "Memória",
         memoryPressure: "Pressão",
+        memorySwapUsed: "Swap em uso",
+        memoryCompressed: "Comprimida",
+        memoryCachedFiles: "Arquivos em cache",
         pressureNormal: "Normal",
         pressureWarning: "Atenção",
         pressureCritical: "Crítico",
@@ -1163,10 +1300,10 @@ extension Strings {
         advancedClearConfirmTitle: "Limpar todas as permissões?",
         advancedClearConfirmBody: "Os recursos que dependem de permissão vão parar de funcionar até você conceder de novo. As suas configurações são mantidas.",
         advancedUninstallSection: "Desinstalar",
-        advancedUninstallDescription: "Faz tudo acima e ainda apaga as preferências e move o Vorssaint para a Lixeira, sem deixar rastro no sistema. O app fecha ao final. Você pode reinstalar quando quiser.",
+        advancedUninstallDescription: "Limpa as permissões e o estado pertencente ao Vorssaint, remove o item de início e a regra de tampa fechada e move apenas o app para a Lixeira. Não apaga vídeos, downloads nem arquivos nas pastas que você escolheu. O app fecha ao final. Você pode reinstalar quando quiser.",
         advancedUninstallButton: "Desinstalar o Vorssaint completamente",
         advancedUninstallConfirmTitle: "Desinstalar o Vorssaint?",
-        advancedUninstallConfirmBody: "O Vorssaint vai limpar as permissões, apagar as preferências e ir para a Lixeira, e então fechar. Esta ação não pode ser desfeita pelo app, mas ele fica na Lixeira até você esvaziá-la.",
+        advancedUninstallConfirmBody: "O Vorssaint vai limpar as permissões e o próprio estado, mover o app para a Lixeira e então fechar. Vídeos baixados e arquivos nas pastas escolhidas não serão apagados. Esta ação não pode ser desfeita pelo app, mas ele fica na Lixeira até você esvaziá-la.",
 
         launchAtLogin: "Iniciar junto com o Mac",
         languageLabel: "Idioma",
@@ -1243,7 +1380,7 @@ extension Strings {
         switcherEnableCaption: "Troque de app ou janela, inclusive janelas minimizadas e várias janelas do mesmo app.",
         switcherUsageHint: "Segure o atalho para navegar; solte para ativar a janela. Shift ou ← volta; W fecha a janela; Q encerra o app; Esc cancela.",
         switcherNoWindows: "Nenhuma janela aberta",
-        switcherIconRowMode: "Mostrar ⌘Tab com ícones grandes",
+        switcherIconRowMode: "Mostrar %@ com ícones grandes",
         switcherIconRowModeCaption: "Mostra um ícone por app com os previews das janelas do app acima.",
         switcherSimpleMode: "Alternador simples",
         switcherSimpleModeCaption: "Mostra ícones de apps e títulos das janelas, sem previews nem captura da tela pelo alternador.",
@@ -1258,11 +1395,14 @@ extension Strings {
         switcherWindowlessAppsFinder: "Só o Finder",
         switcherWindowlessAppsAll: "Todos os apps",
         switcherNoOpenWindow: "Sem janela aberta",
+        switcherOtherDesktop: "Outra Mesa",
         dockPreviewName: "Dock Preview",
         dockPreviewEnable: "Pré-visualizar janelas no Dock",
         dockPreviewEnableCaption: "Passe o mouse em um app aberto no Dock para ver suas janelas e clique na que quiser abrir.",
         dockPreviewBackgroundOpacity: "Fundo do painel",
         dockPreviewBackgroundOpacityCaption: "Diminua para ver mais do que está atrás do painel.",
+        dockPreviewOpenDelay: "Atraso de abertura",
+        dockPreviewOpenDelayCaption: "Quanto tempo o ponteiro precisa ficar sobre um ícone antes de o painel abrir.",
         dockClickMinimize: "Clicar no Dock minimiza",
         dockClickMinimizeCaption: "As janelas do app ativo são minimizadas ao clicar no ícone dele no Dock. Clique de novo para trazê-las de volta.",
         dockClickCycleWindows: "Clicar no Dock alterna janelas",
@@ -1284,6 +1424,8 @@ extension Strings {
         cutPasteName: "Recortar e colar",
         cutPasteEnable: "Recortar e colar arquivos no Finder",
         cutPasteEnableCaption: "Use ⌘X para recortar e ⌘V para mover arquivos e pastas no Finder.",
+        cutPasteShowHUD: "Mostrar painel flutuante",
+        cutPasteShowHUDCaption: "Exibe um indicador com os arquivos recortados enquanto o Finder estiver ativo.",
         cutPasteHowTitle: "Como usar",
         cutPasteStep1: "Selecione itens no Finder e pressione ⌘X para recortá-los.",
         cutPasteStep2: "Abra a pasta de destino e pressione ⌘V para movê-los para lá.",
@@ -1350,8 +1492,8 @@ extension Strings {
         uninstallerCatOther: "Outros",
 
         urlCleanerName: "Limpar URL",
-        urlCleanerEnable: "Limpar URLs copiadas",
-        urlCleanerEnableCaption: "Remove parâmetros de rastreamento de links copiados.",
+        urlCleanerEnable: "Limpar URLs ao copiar",
+        urlCleanerEnableCaption: "Remove os parâmetros de rastreamento de um link assim que ele chega à área de transferência.",
         urlCleanerActiveNow: "Ativo agora",
         urlCleanerManualTitle: "Limpar agora",
         urlCleanerInputPlaceholder: "Cole uma URL",
@@ -1453,7 +1595,7 @@ extension Strings {
         homebrewOperationProgressUnknown: "O Homebrew ainda não informou uma porcentagem.",
 
         mediaName: "Media",
-        mediaEnableCaption: "Comprima vídeos e imagens, crie GIFs e extraia texto localmente.",
+        mediaEnableCaption: "Comprima vídeos, converta e processe imagens, crie GIFs e extraia texto localmente.",
         mediaLocalNote: "Local. Sem rede.",
         mediaToolVideo: "Vídeo",
         mediaToolGIF: "GIF",
@@ -1466,7 +1608,7 @@ extension Strings {
         mediaChooseOutput: "Destino",
         mediaStartVideo: "Comprimir vídeo",
         mediaStartGIF: "Criar GIF",
-        mediaStartImage: "Comprimir imagem",
+        mediaStartImage: "Processar imagem",
         mediaStartConvertPDF: "Converter em PDF",
         mediaStartText: "Extrair texto",
         mediaCancel: "Cancelar",
@@ -1542,6 +1684,15 @@ extension Strings {
         shelfSelectedFormat: "%d selecionados",
         shelfHint: "Clique para selecionar. Arraste para usar ou clique com o botão direito para mais ações.",
         shelfItemImage: "Imagem",
+        shelfTooltipItemsFormat: "%d itens",
+        shelfTooltipImageSingular: "%d imagem",
+        shelfTooltipImagePlural: "%d imagens",
+        shelfTooltipFileSingular: "%d arquivo",
+        shelfTooltipFilePlural: "%d arquivos",
+        shelfTooltipNoteSingular: "%d nota",
+        shelfTooltipNotePlural: "%d notas",
+        shelfTooltipLinkSingular: "%d link",
+        shelfTooltipLinkPlural: "%d links",
         shelfActionOpen: "Abrir",
         shelfActionOpenWith: "Abrir com",
         shelfActionAirDrop: "Compartilhar por AirDrop",
@@ -1566,6 +1717,9 @@ extension Strings {
         mixerLowerOnHeadphonesDisconnect: "Baixar volume ao desconectar fones",
         mixerLowerOnHeadphonesDisconnectCaption: "Ajusta a saída quando fones com fio ou Bluetooth desconectam.",
         mixerHeadphonesDisconnectVolume: "Volume ao desconectar",
+        preciseVolumeRollerEnable: "Volume mais preciso no controle",
+        preciseVolumeRollerCaption: "Transforma roletes e teclas de volume em passos menores.",
+        preciseVolumeRollerTapFailed: "Não foi possível ouvir as teclas de volume.",
         soundOutputSwitcherTitle: "Alternador de saída",
         soundOutputSwitcherEnable: "Alternar saídas por atalho",
         soundOutputSwitcherCaption: "Escolha as saídas e use o atalho para passar para a próxima disponível.",
@@ -1584,6 +1738,9 @@ extension Strings {
 
         updatesSection: "Atualizações",
         autoCheckToggle: "Procurar atualizações automaticamente",
+        includeBetaUpdatesToggle: "Receber atualizações beta",
+        includeBetaUpdatesCaption: "Versões beta incluem novidades em desenvolvimento e podem apresentar instabilidades ou comportamentos incompletos.",
+        betaBadgeLabel: "Beta",
         checkNowButton: "Procurar agora",
         updateChecking: "Procurando…",
         updateUpToDate: "Você está na versão mais recente.",
@@ -1611,6 +1768,7 @@ extension Strings {
         aboutDescription: "Central de utilidades para o seu Mac.\nEnergia, monitor do sistema, rolagem e alternador de janelas, direto na barra de menus.",
         versionPrefix: "Versão",
         reviewIntro: "Rever introdução",
+        reviewHighlights: "Rever novidades",
         viewOnGitHub: "Ver no GitHub",
 
         obContinue: "Continuar",
@@ -1816,16 +1974,23 @@ extension Strings {
         shortcutsPageCaption: "Edite aqui todos os atalhos globais dos recursos instalados neste Mac. Os inativos continuam salvos, mas não funcionam.",
         shortcutsPageTitle: "Atalhos de teclado",
         settingsSearchPlaceholder: "Buscar ajustes",
-        donateHeading: "Apoie o Vorssaint",
-        donateMessage: "Todos os meus projetos públicos são, e sempre serão, totalmente gratuitos: sem assinatura, sem anúncios. O apoio da comunidade é a única forma de manter tudo vivo. Se o Vorssaint te ajuda, virar apoiador no GitHub faz diferença de verdade.",
-        donateButton: "Apoiar no GitHub",
+        donateHeading: "Ajude o Vorssaint a continuar crescendo",
+        donateMessage: "O Vorssaint é gratuito, independente e desenvolvido no meu tempo livre. Se você quiser contribuir financeiramente, o Buy Me a Coffee ajuda diretamente a manter o desenvolvimento avançando.",
+        donateButton: "Apoiar no Buy Me a Coffee",
         donateThanks: "Obrigado por estar aqui. 🖤",
-        supportIntroTitle: "O Vorssaint é 100% gratuito e sempre será",
-        supportIntroMessage: "Eu sigo cuidando do app no meu tempo livre. Se ele te ajuda, você pode me ajudar de um jeito simples, divulgando, deixando uma estrela no GitHub ou virando apoiador por lá. Isso me ajuda muito a continuar trazendo melhorias.",
-        supportIntroStarButton: "Dar uma estrela",
-        supportIntroSponsorButton: "Apoiar no GitHub",
+        supportIntroTitle: "Ajude o Vorssaint a continuar crescendo",
+        supportIntroMessage: "Se você quiser apoiar financeiramente o desenvolvimento, o Buy Me a Coffee é o único lugar para fazer isso.",
+        supportIntroStarButton: "Dar uma estrela no GitHub",
+        supportIntroStarMessage: "Apoio financeiro nunca é esperado. Dar uma estrela no GitHub ajuda mais pessoas a encontrar o Vorssaint e faz uma diferença enorme no desenvolvimento.",
+        supportIntroCoffeeButton: "Apoiar no Buy Me a Coffee",
         supportIntroLaterButton: "Agora não",
         supportIntroDoneButton: "Concluir",
+        discordIntroTitle: "A comunidade do Vorssaint no Discord está começando",
+        discordIntroMessage: "A comunidade do Vorssaint é nova e ainda está em desenvolvimento. Entre desde o começo para conhecer outros usuários e ajudar a construir um espaço acolhedor em torno do app.",
+        discordIntroBenefitHelp: "Tire dúvidas e compartilhe fluxos de trabalho",
+        discordIntroBenefitFeedback: "Relate bugs, peça melhorias e ajude a decidir o que vem depois",
+        discordIntroBenefitPreviews: "Acompanhe o desenvolvimento, prévias e novidades de versões",
+        discordIntroJoinButton: "Entrar na comunidade no Discord",
         communityIntroTitle: "Vem ver antes de todo mundo",
         communityIntroMessage: "Quem já me seguia no X viu várias novidades desta atualização antes de todo mundo. Lá eu posto prévias do que vem depois e mostro como funciona, para você já saber o básico antes mesmo da atualização sair. Segue lá e veja o que vem depois!",
         communityIntroFollowButton: "Seguir @vorssaint no X",
@@ -1859,7 +2024,7 @@ extension Strings {
         switcherUsageHintFormat: "Segure %@ para navegar; solte para ativar a janela. Shift ou ← volta; W fecha a janela; Q encerra o app; Esc cancela.",
         musicBlockSection: "Teclas de mídia",
         musicBlockTitle: "Impedir que o Música abra sozinho",
-        musicBlockCaption: "O app Música deixa de abrir ao tocar nas teclas de mídia. Desative para voltar a usar o Música.",
+        musicBlockCaption: "O app Música deixa de abrir ao tocar nas teclas de mídia. Você ainda pode abri-lo quando quiser.",
         musicBlockReplacementLabel: "Abrir no lugar",
         musicBlockReplacementNone: "Nenhum",
         musicBlockChooseApp: "Escolher app…",
@@ -1916,9 +2081,12 @@ extension Strings {
         qrResultCopy: "Copiar",
         qrResultOpen: "Abrir link",
         highlightsTitle: "Novidades desta versão",
+        highlightsTitleClipboardRedesign: "Novo visual da área de transferência",
         highlightsCaptionDockPreview: "O Dock Preview agora funciona com a ampliação do Dock ligada",
         highlightsCaptionScreenshot: "A captura de tela ganhou uma lupa de pixels e leitura de QR codes",
         highlightsCaptionSnippetLibrary: "Um menu de snippets com busca digita qualquer snippet direto no cursor",
+        highlightsCaptionCapturePalette: "Um único atalho agora abre uma paleta flutuante para capturas, gravações, texto na tela e cores com ajustes por perto.",
+        highlightsCaptionClipboardRedesign: "O histórico agora abre como uma paleta compacta, com linhas limpas e prévia sob demanda para ler ou editar o item completo.",
         highlightsConfigure: "Configurar",
         highlightsTry: "Experimentar",
         highlightsSeeAll: "Ver todas as mudanças",
@@ -1936,15 +2104,115 @@ extension Strings {
         memoryMetricApp: "Memória de apps",
         keepAwakeRightClickToggle: "Clique com o botão direito no ícone da barra de menus para alternar “Manter acordado”",
         keepAwakeRightClickToggleCaption: "Substitui o menu de contexto do clique com o botão direito.",
-        urlCleanerCustomTitle: "Mais nomes para remover",
-        urlCleanerCustomPlaceholder: "ref, origem",
-        urlCleanerCustomCaption: "Separe os nomes dos parâmetros com vírgulas. Eles serão removidos de todos os links.",
+        urlCleanerRulesTitle: "Regras de limpeza",
+        urlCleanerRulesCaption: "Um site anexa estes parâmetros aos próprios links de compartilhamento para rastrear de onde o link veio. Ligado, o nome é removido ao limpar um link; desligado, ele permanece. Os nomes que você adicionar podem ser excluídos.",
+        urlCleanerRulesCoverageCaption: "A lista cobre os diferentes caminhos de compartilhamento de um site — a página, o app, uma sala ao vivo — por isso é longa; um link real costuma carregar apenas dois a quatro deles.",
+        urlCleanerRulesAllSites: "Todos os sites",
+        urlCleanerRulesCountSingular: "1 parâmetro",
+        urlCleanerRulesCountPluralFormat: "%d parâmetros",
+        urlCleanerRulesAddSite: "Adicionar site",
+        urlCleanerRulesParameterPlaceholder: "Nome do parâmetro",
+        urlCleanerRulesMatchCaption: "Escreva o nome à esquerda do = , como utm_source. Um nome que corresponde tira aquele parâmetro do link e deixa o resto como está.",
+        urlCleanerRulesAddButton: "Adicionar",
+        urlCleanerRulesRemoveButton: "Excluir nome",
+        urlCleanerRulesRemoveSiteButton: "Desativar todas as regras deste site",
+        urlCleanerRemovedFormat: "Removidos %@",
         switcherSearchPin: "Fixar busca com S",
         switcherSearchPinCaption: "S inicia uma busca e fixa o alternador aberto, assim digitar não produz mais caracteres especiais quando o atalho usa ⌥, e uma busca que comece com Q ou W não fecha a janela nem encerra o app por engano.",
         invertVerticalScroll: "Inverter rolagem vertical",
         invertHorizontalScroll: "Inverter rolagem horizontal",
         switcherShowShortcutHints: "Mostrar dicas de atalhos",
-        switcherShowShortcutHintsCaption: "Exibe os atalhos de apps e janelas abaixo dos ícones."
+        switcherShowShortcutHintsCaption: "Exibe os atalhos de apps e janelas abaixo dos ícones.",
+        uninstallerHomebrewPackageFormat: "%@ também será removido do Homebrew.",
+        shelfEdgeToggle: "Abrir perto de uma borda da tela",
+        shelfEdgeCaption: "Ao arrastar um arquivo para perto da borda da tela, a área espia para dentro. Solte ali, ou puxe de volta e ela recua.",
+        focusFollowsMouseName: "Foco ao passar o mouse",
+        focusFollowsMouseCaption: "Coloca em foco e traz para frente a janela sob o ponteiro após uma breve pausa.",
+        focusFollowsMouseDelay: "Atraso ao passar o mouse",
+        switcherMinimizedPlacementLabel: "Janelas minimizadas",
+        switcherMinimizedPlacementNormal: "Ordem normal",
+        switcherMinimizedPlacementEnd: "Colocar no final",
+        switcherMinimizedPlacementHidden: "Ocultar",
+        switcherShowFullscreenWindows: "Mostrar janelas em tela cheia",
+        videoDownloaderPageTitle: "Baixador de vídeos",
+        videoDownloaderHubDescription: "Baixe um vídeo ou áudio com opções de qualidade e legenda",
+        videoDownloaderPanelCaption: "Salve um link de mídia como MP4/MKV ou M4A",
+        videoDownloaderUrlPlaceholder: "Cole um link de mídia HTTP ou HTTPS",
+        videoDownloaderUrlHelp: "A URL só é analisada quando é válida. Ela não é salva nem colocada nos argumentos do processo.",
+        videoDownloaderPaste: "Colar",
+        videoDownloaderInspecting: "Analisando mídia…",
+        videoDownloaderVideo: "Vídeo",
+        videoDownloaderAudio: "Áudio",
+        videoDownloaderQuality: "Qualidade do vídeo",
+        videoDownloaderHeightFormat: "%dp",
+        videoDownloaderQualityFallbackFormat: "%dp não estava disponível; %dp foi selecionado.",
+        videoDownloaderSubtitles: "Legendas",
+        videoDownloaderNone: "Nenhuma",
+        videoDownloaderManual: "Manual",
+        videoDownloaderAutomatic: "Automática",
+        videoDownloaderChoose: "Escolher…",
+        videoDownloaderShowInPanel: "Mostrar no painel do menu",
+        videoDownloaderSettingsCaption: "Os downloads ficam numa área temporária privada e só o MP4/MKV ou M4A final vai para sua pasta.",
+        videoDownloaderUsageNotice: "Baixe somente conteúdo que você tem permissão para usar.",
+        videoDownloaderDownloadLocation: "Local de download",
+        videoDownloaderResetDownloads: "Redefinir para Downloads",
+        videoDownloaderUseCookies: "Usar cookies do navegador",
+        videoDownloaderCookiesBrowser: "Navegador",
+        videoDownloaderCookiesNote: "Permite que o yt-dlp use os cookies de login do seu navegador para baixar vídeos com restrição de idade ou exclusivos para membros. Os cookies são lidos apenas durante a inspeção e o download e nunca são armazenados pelo Vorssaint.",
+        videoDownloaderFAQ: "FAQ do yt-dlp",
+        videoDownloaderCookiesDiskAccessNote: "Ler os arquivos de cookies do navegador exige Acesso Total ao Disco. Ative o Vorssaint em Ajustes do Sistema > Privacidade e Segurança > Acesso Total ao Disco e tente novamente.",
+        videoDownloaderErrorExtractorFormat: "O yt-dlp informou: %@",
+        videoDownloaderDependencies: "Ferramentas do baixador",
+        videoDownloaderMissingToolsFormat: "Faltando: %@",
+        videoDownloaderInstallMissingTools: "Instalar ferramentas ausentes",
+        videoDownloaderSetUpDownloader: "Configurar baixador",
+        videoDownloaderBrewSetupNote: "O Homebrew instala apenas os itens ausentes: yt-dlp, FFmpeg (incluindo ffprobe) e Deno.",
+        videoDownloaderTerminalSetupNote: "O Terminal abrirá a configuração oficial do Homebrew e poderá pedir confirmação ou senha; depois instalará yt-dlp, FFmpeg (incluindo ffprobe) e Deno.",
+        videoDownloaderCheckingTools: "Verificando ferramentas…",
+        videoDownloaderDownloadVideo: "Baixar vídeo",
+        videoDownloaderDownloadAudio: "Baixar áudio",
+        videoDownloaderDownloading: "Baixando…",
+        videoDownloaderPercentFormat: "%.0f%%",
+        videoDownloaderSpeedFormat: "%@/s",
+        videoDownloaderEtaFormat: "Tempo restante %@",
+        videoDownloaderFinalizing: "Finalizando…",
+        videoDownloaderCancel: "Cancelar",
+        videoDownloaderCancelling: "Cancelando…",
+        videoDownloaderComplete: "Download concluído",
+        videoDownloaderDownloadAnother: "Baixar outro",
+        videoDownloaderRevealFinder: "Mostrar no Finder",
+        videoDownloaderRetry: "Tentar novamente",
+        videoDownloaderCancelled: "Download cancelado",
+        videoDownloaderFailureTitle: "Não foi possível concluir o download",
+        videoDownloaderUploader: "Publicador",
+        videoDownloaderDuration: "Duração",
+        videoDownloaderThumbnail: "Miniatura da mídia",
+        videoDownloaderErrorURLInvalid: "Digite um link de mídia HTTP ou HTTPS completo.",
+        videoDownloaderErrorURLTooLong: "Esta URL é longa demais para uma análise segura.",
+        videoDownloaderErrorURLControl: "A URL contém quebra de linha ou caractere de controle.",
+        videoDownloaderErrorURLCredentials: "URLs com nome de usuário ou senha não são aceitas.",
+        videoDownloaderErrorInspectionTimeout: "A análise demorou demais. Verifique o link e tente novamente.",
+        videoDownloaderErrorInspectionFailed: "Não foi possível analisar a mídia. Confirme que ela está disponível e acessível.",
+        videoDownloaderErrorInspectionTooLarge: "O site retornou mais informações de mídia do que é seguro processar.",
+        videoDownloaderErrorInspectionMalformed: "As informações retornadas pelo yt-dlp não puderam ser usadas.",
+        videoDownloaderInspectionFailedNotice: "A análise falhou — as opções de qualidade e a miniatura ficam indisponíveis, mas você ainda pode tentar baixar.",
+        videoDownloaderErrorPlaylist: "Playlists, canais e coleções não são aceitos. Cole um único item.",
+        videoDownloaderErrorLive: "Transmissões ao vivo ou futuras não são aceitas.",
+        videoDownloaderErrorDRM: "Mídia protegida por DRM não pode ser baixada.",
+        videoDownloaderErrorRestricted: "Mídia privada, paga ou restrita por login não é aceita.",
+        videoDownloaderErrorNoVideo: "Este item não tem vídeo utilizável. Escolha Áudio.",
+        videoDownloaderErrorNoAudio: "Este item não tem áudio utilizável.",
+        videoDownloaderErrorMissingDependencies: "yt-dlp, FFmpeg (incluindo ffprobe) e Deno são necessários para baixar.",
+        videoDownloaderErrorSetupBusy: "Outra operação do Homebrew está em andamento. Tente depois que terminar.",
+        videoDownloaderErrorSetupFailed: "Não foi possível instalar as ferramentas. Verifique o Homebrew e tente novamente.",
+        videoDownloaderErrorTerminalPermission: "Não foi possível abrir o Terminal. Permita Automação do Terminal nos Ajustes do Sistema.",
+        videoDownloaderErrorDownloadFailed: "O download falhou. Confirme que o link continua disponível e acessível.",
+        videoDownloaderErrorCookiesPermission: "O Vorssaint não conseguiu ler os cookies do navegador selecionado. O macOS negou acesso aos arquivos de cookies. Conceda Acesso Total ao Disco em Ajustes do Sistema > Privacidade e Segurança > Acesso Total ao Disco e tente novamente.",
+        videoDownloaderErrorRemux: "Os fluxos selecionados não podem ser unidos ou remultiplexados em MP4/MKV sem transcodificação. Escolha outra qualidade.",
+        videoDownloaderErrorSubtitle: "Não foi possível baixar e incorporar a legenda selecionada. Se ela exigir login, ative os cookies do navegador e tente novamente.",
+        videoDownloaderErrorSubtitleRateLimited: "Foram feitas muitas solicitações de legendas (HTTP 429). O site de vídeo recusou temporariamente a legenda selecionada. Tente novamente mais tarde ou escolha a legenda no idioma original.",
+        videoDownloaderErrorOptionalData: "Não foi possível incorporar a capa, os metadados ou os capítulos solicitados.",
+        videoDownloaderErrorFileSafety: "Não foi possível verificar ou colocar com segurança o arquivo final na pasta selecionada."
     )
 }
 
@@ -2025,6 +2293,9 @@ extension Strings {
         usageSection: "Hardware usage",
         memorySection: "Memory",
         memoryPressure: "Pressure",
+        memorySwapUsed: "Swap used",
+        memoryCompressed: "Compressed",
+        memoryCachedFiles: "Cached files",
         pressureNormal: "Normal",
         pressureWarning: "Caution",
         pressureCritical: "Critical",
@@ -2065,10 +2336,10 @@ extension Strings {
         advancedClearConfirmTitle: "Clear all permissions?",
         advancedClearConfirmBody: "Features that need permissions will stop working until you grant them again. Your settings are kept.",
         advancedUninstallSection: "Uninstall",
-        advancedUninstallDescription: "Does all of the above, then removes the preferences and moves Vorssaint to the Trash, leaving nothing behind. The app quits when done. You can reinstall anytime.",
+        advancedUninstallDescription: "Clears Vorssaint's permissions and app-owned state, removes its login item and closed-lid rule, and moves only the app to the Trash. It does not delete videos, downloads or files in folders you chose. The app quits when done. You can reinstall anytime.",
         advancedUninstallButton: "Uninstall Vorssaint completely",
         advancedUninstallConfirmTitle: "Uninstall Vorssaint?",
-        advancedUninstallConfirmBody: "Vorssaint will clear its permissions, remove its preferences and move to the Trash, then quit. This can't be undone from the app, but it stays in the Trash until you empty it.",
+        advancedUninstallConfirmBody: "Vorssaint will clear its permissions and own state, move the app to the Trash, then quit. It will not delete downloaded media or files in folders you chose. This can't be undone from the app, but it stays in the Trash until you empty it.",
 
         launchAtLogin: "Launch at login",
         languageLabel: "Language",
@@ -2145,7 +2416,7 @@ extension Strings {
         switcherEnableCaption: "Switch between apps and windows, including minimized windows and multiple windows from the same app.",
         switcherUsageHint: "Hold the shortcut to navigate; release to activate the window. Shift or ← goes back; W closes the window; Q quits the app; Esc cancels.",
         switcherNoWindows: "No open windows",
-        switcherIconRowMode: "Show ⌘Tab with large icons",
+        switcherIconRowMode: "Show %@ with large icons",
         switcherIconRowModeCaption: "Shows one icon per app with that app's window previews above it.",
         switcherSimpleMode: "Simple app switcher",
         switcherSimpleModeCaption: "Shows app icons and window titles, without previews or screen capture by the switcher.",
@@ -2160,11 +2431,14 @@ extension Strings {
         switcherWindowlessAppsFinder: "Finder only",
         switcherWindowlessAppsAll: "All apps",
         switcherNoOpenWindow: "No open window",
+        switcherOtherDesktop: "Other desktop",
         dockPreviewName: "Dock Preview",
         dockPreviewEnable: "Preview windows from the Dock",
         dockPreviewEnableCaption: "Hover over an open app in the Dock to see its windows, then click the one you want.",
         dockPreviewBackgroundOpacity: "Panel background",
         dockPreviewBackgroundOpacityCaption: "Turn it down to see more of what sits behind the panel.",
+        dockPreviewOpenDelay: "Open delay",
+        dockPreviewOpenDelayCaption: "How long the pointer has to rest on an icon before its panel opens.",
         dockClickMinimize: "Click the Dock icon to minimize",
         dockClickMinimizeCaption: "The active app's windows minimize when you click its Dock icon. Click again to bring them back.",
         dockClickCycleWindows: "Click the Dock icon to cycle windows",
@@ -2186,6 +2460,8 @@ extension Strings {
         cutPasteName: "Cut & paste",
         cutPasteEnable: "Cut & paste files in Finder",
         cutPasteEnableCaption: "Use ⌘X to cut and ⌘V to move files and folders in Finder.",
+        cutPasteShowHUD: "Show floating panel",
+        cutPasteShowHUDCaption: "Display a floating indicator with the cut files while Finder is active.",
         cutPasteHowTitle: "How to use",
         cutPasteStep1: "Select items in Finder and press ⌘X to cut them.",
         cutPasteStep2: "Open the destination folder and press ⌘V to move them there.",
@@ -2252,8 +2528,8 @@ extension Strings {
         uninstallerCatOther: "Other",
 
         urlCleanerName: "Clean URL",
-        urlCleanerEnable: "Clean copied URLs",
-        urlCleanerEnableCaption: "Removes tracking parameters from copied links.",
+        urlCleanerEnable: "Clean URLs as you copy them",
+        urlCleanerEnableCaption: "Removes tracking parameters from a link the moment it reaches the clipboard.",
         urlCleanerActiveNow: "Active now",
         urlCleanerManualTitle: "Clean now",
         urlCleanerInputPlaceholder: "Paste a URL",
@@ -2355,7 +2631,7 @@ extension Strings {
         homebrewOperationProgressUnknown: "Homebrew has not reported a percentage yet.",
 
         mediaName: "Media",
-        mediaEnableCaption: "Compress videos and images, make GIFs and extract text locally.",
+        mediaEnableCaption: "Compress videos, convert and process images, make GIFs and extract text locally.",
         mediaLocalNote: "Local. No network.",
         mediaToolVideo: "Video",
         mediaToolGIF: "GIF",
@@ -2368,7 +2644,7 @@ extension Strings {
         mediaChooseOutput: "Destination",
         mediaStartVideo: "Compress video",
         mediaStartGIF: "Make GIF",
-        mediaStartImage: "Compress image",
+        mediaStartImage: "Process image",
         mediaStartConvertPDF: "Convert to PDF",
         mediaStartText: "Extract text",
         mediaCancel: "Cancel",
@@ -2444,6 +2720,15 @@ extension Strings {
         shelfSelectedFormat: "%d selected",
         shelfHint: "Click to select. Drag out to use or right-click for more actions.",
         shelfItemImage: "Image",
+        shelfTooltipItemsFormat: "%d items",
+        shelfTooltipImageSingular: "%d image",
+        shelfTooltipImagePlural: "%d images",
+        shelfTooltipFileSingular: "%d file",
+        shelfTooltipFilePlural: "%d files",
+        shelfTooltipNoteSingular: "%d note",
+        shelfTooltipNotePlural: "%d notes",
+        shelfTooltipLinkSingular: "%d link",
+        shelfTooltipLinkPlural: "%d links",
         shelfActionOpen: "Open",
         shelfActionOpenWith: "Open With",
         shelfActionAirDrop: "Share with AirDrop",
@@ -2468,6 +2753,9 @@ extension Strings {
         mixerLowerOnHeadphonesDisconnect: "Lower volume when headphones disconnect",
         mixerLowerOnHeadphonesDisconnectCaption: "Adjusts output when wired or Bluetooth headphones disconnect.",
         mixerHeadphonesDisconnectVolume: "Volume after disconnect",
+        preciseVolumeRollerEnable: "Use finer volume steps",
+        preciseVolumeRollerCaption: "Turns volume wheels and keys into smaller system volume steps.",
+        preciseVolumeRollerTapFailed: "Could not listen for volume keys.",
         soundOutputSwitcherTitle: "Output switcher",
         soundOutputSwitcherEnable: "Switch outputs with shortcut",
         soundOutputSwitcherCaption: "Choose outputs and use the shortcut to move to the next available one.",
@@ -2486,6 +2774,9 @@ extension Strings {
 
         updatesSection: "Updates",
         autoCheckToggle: "Check for updates automatically",
+        includeBetaUpdatesToggle: "Receive beta updates",
+        includeBetaUpdatesCaption: "Beta versions include features in development and may contain bugs or incomplete behavior.",
+        betaBadgeLabel: "Beta",
         checkNowButton: "Check now",
         updateChecking: "Checking…",
         updateUpToDate: "You're on the latest version.",
@@ -2513,6 +2804,7 @@ extension Strings {
         aboutDescription: "A utility hub for your Mac.\nEnergy, system monitor, scrolling and a window switcher, right in the menu bar.",
         versionPrefix: "Version",
         reviewIntro: "Review introduction",
+        reviewHighlights: "Review highlights",
         viewOnGitHub: "View on GitHub",
 
         obContinue: "Continue",
@@ -2712,22 +3004,29 @@ extension Strings {
         cleaningOverlayUnlock: "Unlock",
         cleaningOverlayMouseHint: "Your mouse and trackpad still work",
         cleaningNeedsAxTitle: "Accessibility needed",
-        cleaningNeedsAxBody: "To lock the keyboard safely, Vorssaint needs Accessibility permission. Grant it in System Settings and try again.",
+        cleaningNeedsAxBody: "To lock the keyboard safely, Vorssaint needs Accessibility permission. Enable it in System Settings and try again.",
 
         tabSupport: "Support",
         shortcutsPageCaption: "Edit every global shortcut from the features installed on this Mac. Inactive shortcuts stay saved but do not run.",
         shortcutsPageTitle: "Keyboard shortcuts",
         settingsSearchPlaceholder: "Search settings",
-        donateHeading: "Support Vorssaint",
-        donateMessage: "Every one of my public projects is, and always will be, completely free: no subscription, no ads. Community support is the only thing that keeps it alive. If Vorssaint helps you, becoming a sponsor on GitHub genuinely makes a difference.",
-        donateButton: "Sponsor on GitHub",
+        donateHeading: "Help Vorssaint keep growing",
+        donateMessage: "Vorssaint is free, independent and built in my spare time. If you would like to contribute financially, Buy Me a Coffee directly helps me keep development moving forward.",
+        donateButton: "Support on Buy Me a Coffee",
         donateThanks: "Thank you for being here. 🖤",
-        supportIntroTitle: "Vorssaint is 100% free and always will be",
-        supportIntroMessage: "I keep taking care of the app in my free time. If it helps you, you can help me in a simple way by sharing it, leaving a star on GitHub or sponsoring me there. It helps me a lot to keep improving it.",
-        supportIntroStarButton: "Leave a star",
-        supportIntroSponsorButton: "Sponsor on GitHub",
+        supportIntroTitle: "Help Vorssaint keep growing",
+        supportIntroMessage: "If you would like to support development financially, Buy Me a Coffee is the one place to do it.",
+        supportIntroStarButton: "Star Vorssaint on GitHub",
+        supportIntroStarMessage: "Financial support is never expected. A star on GitHub helps more people discover Vorssaint and makes a real difference to its development.",
+        supportIntroCoffeeButton: "Support on Buy Me a Coffee",
         supportIntroLaterButton: "Not now",
         supportIntroDoneButton: "Done",
+        discordIntroTitle: "The Vorssaint Discord community is just getting started",
+        discordIntroMessage: "The Vorssaint community is new and still being built. Join early to meet other users and help build a welcoming space around the app.",
+        discordIntroBenefitHelp: "Get help and share workflows",
+        discordIntroBenefitFeedback: "Report bugs, request improvements and shape what comes next",
+        discordIntroBenefitPreviews: "See work in progress, early previews and release news",
+        discordIntroJoinButton: "Join the Discord community",
         communityIntroTitle: "See it before everyone else",
         communityIntroMessage: "People who already followed me on X saw several changes in this update before anyone else. I post previews of what is coming and show how it works, so you already know the basics before the update ships. Follow along and see what comes next!",
         communityIntroFollowButton: "Follow @vorssaint on X",
@@ -2761,7 +3060,7 @@ extension Strings {
         switcherUsageHintFormat: "Hold %@ to navigate; release to activate the window. Shift or ← goes back; W closes the window; Q quits the app; Esc cancels.",
         musicBlockSection: "Media keys",
         musicBlockTitle: "Stop Music from opening on its own",
-        musicBlockCaption: "The Music app no longer opens when you press the media keys. Turn this off to use Music again.",
+        musicBlockCaption: "The Music app no longer opens when you press the media keys. You can still open it yourself.",
         musicBlockReplacementLabel: "Open instead",
         musicBlockReplacementNone: "None",
         musicBlockChooseApp: "Choose app…",
@@ -2818,9 +3117,12 @@ extension Strings {
         qrResultCopy: "Copy",
         qrResultOpen: "Open link",
         highlightsTitle: "New in this update",
+        highlightsTitleClipboardRedesign: "Redesigned clipboard",
         highlightsCaptionDockPreview: "Dock Preview now works with Dock magnification turned on",
         highlightsCaptionScreenshot: "The screenshot tool gained a pixel loupe and QR code reading",
         highlightsCaptionSnippetLibrary: "A searchable snippet menu types any snippet right at your cursor",
+        highlightsCaptionCapturePalette: "One shortcut now opens a floating palette for screenshots, recordings, screen text and colors with nearby controls.",
+        highlightsCaptionClipboardRedesign: "Clipboard history now opens as a compact palette with uncluttered rows and an on-demand preview for reading or editing the full item.",
         highlightsConfigure: "Set up",
         highlightsTry: "Try it",
         highlightsSeeAll: "See all changes",
@@ -2838,14 +3140,114 @@ extension Strings {
         memoryMetricApp: "App Memory",
         keepAwakeRightClickToggle: "Right-click the menu bar icon to toggle Keep Awake",
         keepAwakeRightClickToggleCaption: "Replaces the right-click context menu.",
-        urlCleanerCustomTitle: "More names to remove",
-        urlCleanerCustomPlaceholder: "ref, source",
-        urlCleanerCustomCaption: "Separate parameter names with commas. They are removed from every link.",
+        urlCleanerRulesTitle: "Cleaning rules",
+        urlCleanerRulesCaption: "A site attaches these parameters to its own share links to track where the link came from. Switched on, a name is removed when a link is cleaned; switched off, it stays. Names you add can be deleted.",
+        urlCleanerRulesCoverageCaption: "The list covers a site's different share paths — the web page, the app, a live room — which is why it is long; a real link usually carries only two to four of them.",
+        urlCleanerRulesAllSites: "All sites",
+        urlCleanerRulesCountSingular: "1 parameter",
+        urlCleanerRulesCountPluralFormat: "%d parameters",
+        urlCleanerRulesAddSite: "Add a site",
+        urlCleanerRulesParameterPlaceholder: "Parameter name",
+        urlCleanerRulesMatchCaption: "Write the name to the left of the = , like utm_source. A name that matches takes that one parameter out of the link and leaves the rest as it was.",
+        urlCleanerRulesAddButton: "Add",
+        urlCleanerRulesRemoveButton: "Delete name",
+        urlCleanerRulesRemoveSiteButton: "Turn off every rule for this site",
+        urlCleanerRemovedFormat: "Removed %@",
         switcherSearchPin: "Pin search with S",
         switcherSearchPinCaption: "S starts a search and pins the switcher open, so typing no longer produces special characters when your shortcut uses ⌥, and a search starting with Q or W no longer closes the window or quits the app by mistake.",
         invertVerticalScroll: "Invert vertical scrolling",
         invertHorizontalScroll: "Invert horizontal scrolling",
         switcherShowShortcutHints: "Show shortcut hints",
-        switcherShowShortcutHintsCaption: "Shows the app and window shortcuts below the icons."
+        switcherShowShortcutHintsCaption: "Shows the app and window shortcuts below the icons.",
+        uninstallerHomebrewPackageFormat: "%@ will also be removed from Homebrew.",
+        shelfEdgeToggle: "Open near a screen edge",
+        shelfEdgeCaption: "Drag a file toward the screen edge to peek the shelf in. Drop it there, or pull back and it retreats.",
+        focusFollowsMouseName: "Focus follows mouse",
+        focusFollowsMouseCaption: "Focuses and raises the window under the pointer after a short pause.",
+        focusFollowsMouseDelay: "Hover delay",
+        switcherMinimizedPlacementLabel: "Minimized windows",
+        switcherMinimizedPlacementNormal: "Normal ordering",
+        switcherMinimizedPlacementEnd: "Place at end",
+        switcherMinimizedPlacementHidden: "Hide",
+        switcherShowFullscreenWindows: "Show fullscreen windows",
+        videoDownloaderPageTitle: "Video Downloader",
+        videoDownloaderHubDescription: "Download a video or audio track with quality and subtitle choices",
+        videoDownloaderPanelCaption: "Save a media link as MP4/MKV or M4A",
+        videoDownloaderUrlPlaceholder: "Paste an HTTP or HTTPS media link",
+        videoDownloaderUrlHelp: "The URL is inspected only after it is valid. It is not saved or put in process arguments.",
+        videoDownloaderPaste: "Paste",
+        videoDownloaderInspecting: "Inspecting media…",
+        videoDownloaderVideo: "Video",
+        videoDownloaderAudio: "Audio",
+        videoDownloaderQuality: "Video quality",
+        videoDownloaderHeightFormat: "%dp",
+        videoDownloaderQualityFallbackFormat: "%dp was unavailable; %dp was selected instead.",
+        videoDownloaderSubtitles: "Subtitles",
+        videoDownloaderNone: "None",
+        videoDownloaderManual: "Manual",
+        videoDownloaderAutomatic: "Automatic",
+        videoDownloaderChoose: "Choose…",
+        videoDownloaderShowInPanel: "Show in menu panel",
+        videoDownloaderSettingsCaption: "Downloads are staged privately and only the finished MP4/MKV or M4A is placed in your folder.",
+        videoDownloaderUsageNotice: "Only download content you have permission to use.",
+        videoDownloaderDownloadLocation: "Download location",
+        videoDownloaderResetDownloads: "Reset to Downloads",
+        videoDownloaderUseCookies: "Use browser cookies",
+        videoDownloaderCookiesBrowser: "Browser",
+        videoDownloaderCookiesNote: "Let yt-dlp use your browser's login cookies so age-restricted or member-only videos can download. Cookies are read only during inspection and download and are never stored by Vorssaint.",
+        videoDownloaderFAQ: "yt-dlp FAQ",
+        videoDownloaderCookiesDiskAccessNote: "Reading browser cookie files requires Full Disk Access. Enable Vorssaint in System Settings > Privacy & Security > Full Disk Access, then try again.",
+        videoDownloaderErrorExtractorFormat: "yt-dlp reported: %@",
+        videoDownloaderDependencies: "Downloader tools",
+        videoDownloaderMissingToolsFormat: "Missing: %@",
+        videoDownloaderInstallMissingTools: "Install missing tools",
+        videoDownloaderSetUpDownloader: "Set up downloader",
+        videoDownloaderBrewSetupNote: "Homebrew installs only the missing yt-dlp, FFmpeg (including ffprobe), and Deno tools.",
+        videoDownloaderTerminalSetupNote: "Terminal will open for the official Homebrew setup and may ask for confirmation or your password, then installs yt-dlp, FFmpeg (including ffprobe), and Deno.",
+        videoDownloaderCheckingTools: "Checking downloader tools…",
+        videoDownloaderDownloadVideo: "Download video",
+        videoDownloaderDownloadAudio: "Download audio",
+        videoDownloaderDownloading: "Downloading…",
+        videoDownloaderPercentFormat: "%.0f%%",
+        videoDownloaderSpeedFormat: "%@/s",
+        videoDownloaderEtaFormat: "ETA %@",
+        videoDownloaderFinalizing: "Finalizing…",
+        videoDownloaderCancel: "Cancel",
+        videoDownloaderCancelling: "Cancelling…",
+        videoDownloaderComplete: "Download complete",
+        videoDownloaderDownloadAnother: "Download Another",
+        videoDownloaderRevealFinder: "Show in Finder",
+        videoDownloaderRetry: "Retry",
+        videoDownloaderCancelled: "Download cancelled",
+        videoDownloaderFailureTitle: "Could not finish the download",
+        videoDownloaderUploader: "Uploader",
+        videoDownloaderDuration: "Duration",
+        videoDownloaderThumbnail: "Media thumbnail",
+        videoDownloaderErrorURLInvalid: "Enter a complete HTTP or HTTPS media link.",
+        videoDownloaderErrorURLTooLong: "This URL is too long to inspect safely.",
+        videoDownloaderErrorURLControl: "The URL contains a line break or control character.",
+        videoDownloaderErrorURLCredentials: "URLs containing a username or password are not supported.",
+        videoDownloaderErrorInspectionTimeout: "Inspection took too long. Check the link and try again.",
+        videoDownloaderErrorInspectionFailed: "The media could not be inspected. Make sure it is available and accessible.",
+        videoDownloaderErrorInspectionTooLarge: "The site returned more media information than can be handled safely.",
+        videoDownloaderErrorInspectionMalformed: "The media information returned by yt-dlp was not usable.",
+        videoDownloaderInspectionFailedNotice: "Inspection failed — quality options and the thumbnail are unavailable, but you can still try downloading.",
+        videoDownloaderErrorPlaylist: "Playlists, channels and collections are not supported. Paste one media item.",
+        videoDownloaderErrorLive: "Live and upcoming streams are not supported.",
+        videoDownloaderErrorDRM: "DRM-protected media cannot be downloaded.",
+        videoDownloaderErrorRestricted: "Private, paid or sign-in restricted media is not supported.",
+        videoDownloaderErrorNoVideo: "This item has no usable video stream. Choose Audio instead.",
+        videoDownloaderErrorNoAudio: "This item has no usable audio stream.",
+        videoDownloaderErrorMissingDependencies: "yt-dlp, FFmpeg (including ffprobe), and Deno are all required to download.",
+        videoDownloaderErrorSetupBusy: "Another Homebrew operation is already running. Try again when it finishes.",
+        videoDownloaderErrorSetupFailed: "The downloader tools could not be installed. Check Homebrew and try again.",
+        videoDownloaderErrorTerminalPermission: "Terminal could not be opened. Allow Terminal Automation in System Settings and try again.",
+        videoDownloaderErrorDownloadFailed: "The media download failed. Check that the link is still available and accessible.",
+        videoDownloaderErrorCookiesPermission: "Vorssaint could not read the selected browser's cookies. macOS denied access to the browser's cookie files. Grant Full Disk Access in System Settings > Privacy & Security > Full Disk Access, then try again.",
+        videoDownloaderErrorRemux: "The selected streams cannot be merged or remuxed to MP4/MKV without transcoding. Choose another quality.",
+        videoDownloaderErrorSubtitle: "The selected subtitle could not be downloaded and embedded. If it requires sign-in, enable browser cookies and try again.",
+        videoDownloaderErrorSubtitleRateLimited: "Too many subtitle requests were made (HTTP 429). The video site temporarily rejected the selected subtitle. Try again later or choose the original-language subtitle.",
+        videoDownloaderErrorOptionalData: "The requested artwork, metadata or chapters could not be embedded.",
+        videoDownloaderErrorFileSafety: "The finished file could not be verified or safely placed in the selected folder."
     )
 }

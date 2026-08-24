@@ -46,6 +46,10 @@ enum WhatsAppDownloadSupport {
         "pages", "pdf", "ppt", "pptm", "pptx", "rtf", "tex", "txt", "xls", "xlsm", "xlsx",
     ]
 
+    static var isEnabled: Bool {
+        UserDefaults.standard.bool(forKey: DefaultsKey.whatsAppDownloadsEnabled)
+    }
+
     static func sanitizedRetentionDays(_ value: Int) -> Int {
         allowedRetentionDays.contains(value) ? value : 7
     }
@@ -136,13 +140,18 @@ enum WhatsAppDownloadSupport {
         if archiveExtensions.contains(ext) { return .archive }
         if documentExtensions.contains(ext) { return .document }
 
-        if let identifier = contentTypeIdentifier,
-           let type = UTType(identifier) {
-            if type.conforms(to: .image) { return .image }
-            if type.conforms(to: .movie) || type.conforms(to: .video) { return .video }
-            if type.conforms(to: .audio) { return .audio }
-            if type.conforms(to: .archive) { return .archive }
-            if type.conforms(to: .pdf) || type.conforms(to: .text) { return .document }
+        if let identifier = contentTypeIdentifier {
+            if VorssaintUTTypeSupport.conforms(identifier: identifier, to: .image) { return .image }
+            if VorssaintUTTypeSupport.conforms(identifier: identifier, to: .movie)
+                || VorssaintUTTypeSupport.conforms(identifier: identifier, to: .video) {
+                return .video
+            }
+            if VorssaintUTTypeSupport.conforms(identifier: identifier, to: .audio) { return .audio }
+            if VorssaintUTTypeSupport.conforms(identifier: identifier, to: .archive) { return .archive }
+            if VorssaintUTTypeSupport.conforms(identifier: identifier, to: .pdf)
+                || VorssaintUTTypeSupport.conforms(identifier: identifier, to: .text) {
+                return .document
+            }
         }
         return .other
     }

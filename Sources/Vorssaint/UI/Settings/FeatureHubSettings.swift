@@ -243,6 +243,42 @@ private struct FeatureHubRow: View {
 
     var body: some View {
         HStack(spacing: 10) {
+            if installed, feature.hasNavigableSettingsDestination {
+                Button {
+                    SettingsRouter.shared.request(feature.settingsDestination)
+                } label: {
+                    rowContent(showsChevron: true)
+                }
+                .buttonStyle(.plain)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel("\(accessibilityTitle). \(feature.hubDescription(hub))")
+                .accessibilityAddTraits(.isLink)
+                .accessibilityRemoveTraits(.isButton)
+            } else {
+                rowContent(showsChevron: false)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("\(accessibilityTitle). \(feature.hubDescription(hub))")
+            }
+            if working {
+                ProgressView()
+                    .controlSize(.small)
+            } else if installed {
+                Button(hub.uninstallButton) { flip(to: false) }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                    .accessibilityLabel("\(hub.uninstallButton) \(accessibilityTitle)")
+            } else {
+                Button(hub.installButton) { flip(to: true) }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.small)
+                    .accessibilityLabel("\(hub.installButton) \(accessibilityTitle)")
+            }
+        }
+        .padding(.vertical, 1)
+    }
+
+    private func rowContent(showsChevron: Bool) -> some View {
+        HStack(spacing: 10) {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(installed
                         ? AnyShapeStyle(Theme.spaceGradient)
@@ -287,23 +323,15 @@ private struct FeatureHubRow: View {
                     .foregroundStyle(installed ? Color.secondary : Color.secondary.opacity(0.6))
             }
             Spacer(minLength: 8)
-            if working {
-                ProgressView()
-                    .controlSize(.small)
-            } else if installed {
-                Button(hub.uninstallButton) { flip(to: false) }
-                    .buttonStyle(.bordered)
-                    .controlSize(.small)
-            } else {
-                Button(hub.installButton) { flip(to: true) }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.small)
+            if showsChevron {
+                Image(systemName: "chevron.forward")
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundStyle(.tertiary)
+                    .accessibilityHidden(true)
             }
         }
-        .padding(.vertical, 1)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(accessibilityTitle)
-        .accessibilityValue(installed ? "1" : "0")
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
     }
 
     /// A quick, honest beat of feedback: the spinner shows the action landed,
@@ -329,6 +357,7 @@ struct PermissionsPortalSections: View {
     let hub: FeatureHubStrings
     let visiblePermissions: [AppPermission]
     @State private var automation: [Permissions.AutomationTarget: Permissions.AutomationStatus] = [:]
+    @State private var pollingDemandID = UUID()
 
     init(hub: FeatureHubStrings,
          visiblePermissions: [AppPermission] = AppPermission.allCases) {
@@ -347,6 +376,10 @@ struct PermissionsPortalSections: View {
             // read the moment the portal shows; automation is checked off the
             // main thread because the AE round trip can block briefly.
             permissions.refresh()
+            if visiblePermissions.contains(.accessibility)
+                || visiblePermissions.contains(.screenRecording) {
+                permissions.setActivePermissionSurface(pollingDemandID, visible: true)
+            }
             DispatchQueue.global(qos: .userInitiated).async {
                 let finder = Permissions.automationStatus(for: .finder)
                 let terminal = Permissions.automationStatus(for: .terminal)
@@ -354,6 +387,9 @@ struct PermissionsPortalSections: View {
                     automation = [.finder: finder, .terminal: terminal]
                 }
             }
+        }
+        .onDisappear {
+            permissions.setActivePermissionSurface(pollingDemandID, visible: false)
         }
     }
 
@@ -363,10 +399,29 @@ struct PermissionsPortalSections: View {
         case .screenRecording: return permissions.screenRecording ? .granted : .missing
         case .fullDiskAccess: return permissions.fullDiskAccess ? .granted : .missing
         case .filesAndFolders:
-            guard AppFeature.cleaner.isAvailable else { return .unknown }
-            switch WhatsAppDownloadManager.shared.accessStatus {
-            case .available: return .granted
-            case .denied: return .missing
+            guard (AppFeature.cleaner.isAvailable && WhatsAppDownloadSupport.isEnabled) || AppFeature.videoDownloader.isAvailable else {
+                return .unknown
+            }
+            var statuses: [PermissionStatusAggregation.Status] = []
+            if AppFeature.cleaner.isAvailable && WhatsAppDownloadSupport.isEnabled {
+                switch WhatsAppDownloadManager.shared.accessStatus {
+                case .available: statuses.append(.granted)
+                case .denied: statuses.append(.missing)
+                case .unknown: statuses.append(.unknown)
+                }
+            }
+            if AppFeature.videoDownloader.isAvailable {
+                switch VideoDownloaderDestinationSupport.accessStatus(
+                    savedPath: UserDefaults.standard.string(
+                        forKey: DefaultsKey.videoDownloaderDestinationPath)) {
+                case .available: statuses.append(.granted)
+                case .denied: statuses.append(.missing)
+                case .unknown: statuses.append(.unknown)
+                }
+            }
+            switch PermissionStatusAggregation.status(for: statuses) {
+            case .granted: return .granted
+            case .missing: return .missing
             case .unknown: return .unknown
             }
         case .notifications:
@@ -413,7 +468,7 @@ struct PermissionsPortalSections: View {
 }
 
 private struct PermissionPortalRow: View {
-    enum Status { case granted, missing, unknown }
+    enum Status: Equatable { case granted, missing, unknown }
 
     @ObservedObject private var l10n = L10n.shared
     let permission: AppPermission
@@ -565,6 +620,7 @@ extension AppFeature {
         case .windowLayout: return FeatureStrings.windowLayout(L10n.shared.language).title
         case .autoQuit: return s.autoQuitName
         case .scrollInverter: return s.invertMouseScroll
+        case .focusFollowsMouse: return s.focusFollowsMouseName
         case .smoothScroll: return s.smoothScrollName
         case .mouseNavigation: return hub.titleMouseNavigation
         case .mouseButtonShortcuts: return FeatureStrings.mouseButtons(L10n.shared.language).pageTitle
@@ -587,6 +643,7 @@ extension AppFeature {
         case .keepAwake: return s.keepAwakeTitle
         case .brightness: return FeatureStrings.brightness(L10n.shared.language).pageTitle
         case .extraBrightness: return s.extraBrightnessName
+        case .bluetoothSleep: return FeatureStrings.bluetoothSleep(L10n.shared.language).pageTitle
         case .quickLauncher: return s.launcherName
         case .quickToggles: return FeatureStrings.quickToggles(L10n.shared.language).pageTitle
         case .colorPicker: return s.colorPickerName
@@ -599,8 +656,10 @@ extension AppFeature {
         case .commandBar: return FeatureStrings.commandBar(L10n.shared.language).pageTitle
         case .cleaningMode: return s.cleaningMenuItem
         case .mediaTools: return s.mediaName
+        case .videoDownloader: return FeatureStrings.videoDownloader(L10n.shared.language).pageTitle
         case .cleaner: return s.cleanerName
         case .uninstaller: return s.uninstallerName
+        case .killProcess: return FeatureStrings.killProcess(L10n.shared.language).pageTitle
         case .homebrew: return s.homebrewName
         case .appUpdates: return FeatureStrings.appUpdates(L10n.shared.language).pageTitle
         case .monitorCPU: return s.monitorShowCPU
@@ -622,6 +681,7 @@ extension AppFeature {
         case .windowLayout: return hub.descWindowLayout
         case .autoQuit: return hub.descAutoQuit
         case .scrollInverter: return hub.descScrollInverter
+        case .focusFollowsMouse: return L10n.shared.s.focusFollowsMouseCaption
         case .smoothScroll: return hub.descSmoothScroll
         case .mouseNavigation: return hub.descMouseNavigation
         case .mouseButtonShortcuts: return FeatureStrings.mouseButtons(L10n.shared.language).hubDescription
@@ -644,6 +704,7 @@ extension AppFeature {
         case .keepAwake: return hub.descKeepAwake
         case .brightness: return FeatureStrings.brightness(L10n.shared.language).hubDescription
         case .extraBrightness: return hub.descExtraBrightness
+        case .bluetoothSleep: return FeatureStrings.bluetoothSleep(L10n.shared.language).hubDescription
         case .quickLauncher: return hub.descQuickLauncher
         case .quickToggles: return FeatureStrings.quickToggles(L10n.shared.language).hubDescription
         case .colorPicker: return hub.descColorPicker
@@ -656,10 +717,16 @@ extension AppFeature {
         case .commandBar: return FeatureStrings.commandBar(L10n.shared.language).hubDescription
         case .cleaningMode: return hub.descCleaningMode
         case .mediaTools: return hub.descMediaTools
+        case .videoDownloader: return FeatureStrings.videoDownloader(L10n.shared.language).hubDescription
         case .cleaner:
-            return hub.descCleaner + " · "
+            let description = hub.descCleaner
+            guard WhatsAppDownloadSupport.isEnabled else {
+                return description
+            }
+            return description + " · "
                 + FeatureStrings.whatsAppDownloads(L10n.shared.language).hubDescription
         case .uninstaller: return hub.descUninstaller
+        case .killProcess: return FeatureStrings.killProcess(L10n.shared.language).hubDescription
         case .homebrew: return hub.descHomebrew
         case .appUpdates: return FeatureStrings.appUpdates(L10n.shared.language).hubDescription
         case .monitorCPU: return hub.descMonitorCPU

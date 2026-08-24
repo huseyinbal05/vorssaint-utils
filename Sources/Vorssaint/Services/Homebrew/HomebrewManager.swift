@@ -42,6 +42,9 @@ final class HomebrewManager: ObservableObject {
     private var popularityLoads: Set<HomebrewPackageKind> = []
     private var activeProcess: Process?
     private var cancelRequested = false
+    private var installedCaskRecords: [HomebrewCaskRecord] = []
+    private var installedCaskRecordsFetchedAt: Date?
+    private var ownershipLoads: [String: [(HomebrewPackage?) -> Void]] = [:]
     private var completedOperationCleanup: DispatchWorkItem?
     private lazy var analyticsSession: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral
@@ -52,6 +55,7 @@ final class HomebrewManager: ObservableObject {
 
     var isBusy: Bool {
         isLoadingInstalled || isSearching || isLoadingDetails || operation != nil
+            || HomebrewMutationGate.shared.isReserved
     }
 
     var outdatedCount: Int {
@@ -66,6 +70,8 @@ final class HomebrewManager: ObservableObject {
         guard let brewPath = detectBrewPath() else {
             self.brewPath = nil
             installed = []
+            installedCaskRecords = []
+            installedCaskRecordsFetchedAt = nil
             searchResults = []
             selectedPackage = nil
             outdatedGeneration += 1
@@ -100,6 +106,8 @@ final class HomebrewManager: ObservableObject {
                 }
                 do {
                     self.installed = try HomebrewParser.parseInfoCommandOutput(output).map(self.packageEnriched)
+                    self.installedCaskRecords = HomebrewParser.parseInstalledCaskRecords(output)
+                    self.installedCaskRecordsFetchedAt = Date()
                     self.didOpenInstaller = false
                     if let selected = self.selectedPackage {
                         self.selectedPackage = self.packageEnriched(self.installed.first { $0.id == selected.id } ?? selected)
@@ -200,6 +208,47 @@ final class HomebrewManager: ObservableObject {
         perform(.uninstall, package: package)
     }
 
+    /// Looks up whether Homebrew owns this exact app bundle. The cached
+    /// installed catalog is reused when fresh; otherwise one read-only command
+    /// answers every concurrent request for the same path.
+    func packageManagingApplication(at url: URL,
+                                    completion: @escaping (HomebrewPackage?) -> Void) {
+        let path = url.standardizedFileURL.path
+        if let fetchedAt = installedCaskRecordsFetchedAt,
+           Date().timeIntervalSince(fetchedAt) < 60 {
+            completion(HomebrewOwnershipSupport.packageManagingApplication(
+                atPath: path,
+                installed: installedCaskRecords
+            ))
+            return
+        }
+        if ownershipLoads[path] != nil {
+            ownershipLoads[path]?.append(completion)
+            return
+        }
+        ownershipLoads[path] = [completion]
+        guard let brewPath = brewPath ?? detectBrewPath() else {
+            finishOwnershipLoad(path: path, package: nil)
+            return
+        }
+        self.brewPath = brewPath
+        run(HomebrewCommandBuilder.installed(brewPath: brewPath)) { [weak self] status, output in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                let records = status == 0 ? HomebrewParser.parseInstalledCaskRecords(output) : []
+                if status == 0 {
+                    self.installedCaskRecords = records
+                    self.installedCaskRecordsFetchedAt = Date()
+                }
+                let package = HomebrewOwnershipSupport.packageManagingApplication(
+                    atPath: path,
+                    installed: records
+                )
+                self.finishOwnershipLoad(path: path, package: package)
+            }
+        }
+    }
+
     func upgrade(_ package: HomebrewPackage) {
         perform(.upgrade, package: package)
     }
@@ -256,6 +305,19 @@ final class HomebrewManager: ObservableObject {
         }
     }
 
+    /// When automated Homebrew setup needs interactive sudo authorization or Xcode CLI tools,
+    /// hand off to a standalone Terminal session with a static, injection-safe command.
+    @discardableResult
+    func openVideoDownloaderInstaller(formulae: [String] = VideoDownloaderTerminalSetup.defaultFormulae,
+                                      installHomebrew: Bool = true) -> Bool {
+        errorMessage = nil
+        let command = VideoDownloaderTerminalSetup.command(formulae: formulae,
+                                                           installHomebrew: installHomebrew)
+        let opened = openTerminal(command: command)
+        if opened { didOpenInstaller = true }
+        return opened
+    }
+
     func openShellConfiguration() {
         guard let brewPath = brewPath ?? detectBrewPath() else { return }
         self.brewPath = brewPath
@@ -299,6 +361,7 @@ final class HomebrewManager: ObservableObject {
                          package: HomebrewPackage?,
                          command commandOverride: HomebrewCommand? = nil) {
         guard operation == nil else { return }
+        guard let reservation = HomebrewMutationGate.shared.reserve() else { return }
         guard let brewPath = brewPath ?? detectBrewPath() else { return }
         guard let command = commandOverride
                 ?? standardCommand(for: action, package: package, brewPath: brewPath) else { return }
@@ -324,6 +387,7 @@ final class HomebrewManager: ObservableObject {
                          self?.updateOperationStatus(from: chunk, action: action)
                      }) { [weak self] status, output in
             DispatchQueue.main.async {
+                reservation.release()
                 guard let self else { return }
                 self.activeProcess = nil
                 self.operation = nil
@@ -331,8 +395,13 @@ final class HomebrewManager: ObservableObject {
                     self.markOperationComplete(result: .succeeded,
                                                phase: .refreshing,
                                                activity: nil)
+                    if action.clearsSelectionOnSuccess {
+                        if self.selectedPackage?.id == package?.id {
+                            self.clearSelection()
+                        }
+                    }
                     self.refreshInstalled()
-                    if let package {
+                    if !action.clearsSelectionOnSuccess, let package {
                         self.select(package)
                     }
                 } else if self.cancelRequested {
@@ -359,6 +428,11 @@ final class HomebrewManager: ObservableObject {
                 self.cancelRequested = false
             }
         }
+    }
+
+    private func finishOwnershipLoad(path: String, package: HomebrewPackage?) {
+        let completions = ownershipLoads.removeValue(forKey: path) ?? []
+        completions.forEach { $0(package) }
     }
 
     private func standardCommand(for action: HomebrewOperation.Action,
@@ -571,10 +645,12 @@ final class HomebrewManager: ObservableObject {
         guard let tap = untrustedTap, !isTrustingTap,
               HomebrewCommandBuilder.isValidToken(tap),
               let brewPath = brewPath ?? detectBrewPath() else { return }
+        guard let reservation = HomebrewMutationGate.shared.reserve() else { return }
         isTrustingTap = true
         let retry = untrustedTapRetry
         run(HomebrewCommandBuilder.trustTap(brewPath: brewPath, tap: tap)) { [weak self] status, output in
             DispatchQueue.main.async {
+                reservation.release()
                 guard let self else { return }
                 self.isTrustingTap = false
                 guard status == 0 else {
